@@ -77,7 +77,7 @@
         multiaccount-address (-> (:address multiaccount)
                                  (string/lower-case)
                                  (string/replace-first "0x" ""))
-        keycard-multiaccount? (boolean (get-in db [:multiaccounts/multiaccounts multiaccount-address :keycard-instance-uid]))]
+        keycard-multiaccount? (boolean (get-in db [:multiaccounts/multiaccounts multiaccount-address :keycard-key-uid]))]
     (if keycard-multiaccount?
       ;; trying to recover multiaccount created with keycard
       {:db        (-> db
@@ -177,8 +177,8 @@
   [{:keys [db] :as cofx}]
   (let [storage-type (get-in db [:intro-wizard :selected-storage-type])]
     (if (= storage-type :advanced)
-      {:dispatch [:recovery.ui/keycard-option-pressed]})
-    (navigation/navigate-to-cofx cofx :recover-multiaccount-enter-password nil)))
+      {:dispatch [:recovery.ui/keycard-option-pressed]}
+      (navigation/navigate-to-cofx cofx :recover-multiaccount-enter-password nil))))
 
 (fx/defn proceed-to-password-confirm
   [{:keys [db] :as cofx}]

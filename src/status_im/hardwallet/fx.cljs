@@ -1,7 +1,17 @@
 (ns status-im.hardwallet.fx
   (:require [re-frame.core :as re-frame]
+            [status-im.utils.types :as types]
             [status-im.hardwallet.card :as card]
-            [status-im.native-module.core :as status]))
+            <<<<<<<
+            HEAD
+            [status-im.native-module.core :as status]
+            [status-im.react-native.js-dependencies :as js-dependencies]))
+=======
+            [status-im.utils.datetime :as utils.datetime]
+            [status-im.native-module.core :as statusgo]
+            [status-im.react-native.js-dependencies :as js-dependencies]
+            [status-im.utils.platform :as platform]))
+>>>>>>> 50905600a... handle initialized cards
 
 (re-frame/reg-fx
  :hardwallet/get-application-info
@@ -95,3 +105,32 @@
  :send-transaction-with-signature
  (fn [{:keys [transaction signature on-completed]}]
    (status/send-transaction-with-signature transaction signature on-completed)))
+
+(re-frame/reg-fx
+ :hardwallet/persist-pairings
+ (fn [pairings]
+   (.. js-dependencies/async-storage
+       (setItem "status-keycard-pairings" (types/clj->json pairings)))))
+
+(re-frame/reg-fx
+ :hardwallet/retrieve-pairings
+ (fn []
+   (when platform/android?
+     (.. js-dependencies/async-storage
+         (getItem "status-keycard-pairings")
+         (then #(re-frame/dispatch [:hardwallet.callback/on-retrieve-pairings-success
+                                    (types/json->clj %)]))))))
+
+(re-frame/reg-fx
+ :hardwallet/listen-to-hardware-back-button
+ (fn []
+   (re-frame/dispatch [:hardwallet/add-listener-to-hardware-back-button
+                       (.addEventListener js-dependencies/back-handler "hardwareBackPress"
+                                          (fn []
+                                            (re-frame/dispatch [:hardwallet/back-button-pressed])
+                                            true))])))
+
+(re-frame/reg-fx
+ :hardwallet/remove-listener-to-hardware-back-button
+ (fn [listener]
+   (.remove listener)))
