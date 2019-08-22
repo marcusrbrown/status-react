@@ -89,6 +89,12 @@ in stdenv.mkDerivation {
     prevSet=$-
     set -e
 
+    # Ensure Hermes is enabled for release Android builds, to guard against hangs on 64-bit devices after invoking status-go library
+    substituteInPlace $sourceRoot/android/app/build.gradle \
+      --replace \
+        'enableHermes: false' \
+        'enableHermes: true'
+
     substituteInPlace $sourceRoot/android/gradlew \
       --replace \
         'exec gradle' \
