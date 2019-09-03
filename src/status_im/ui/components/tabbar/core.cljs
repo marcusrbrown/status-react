@@ -145,14 +145,12 @@
                       {:style (tabs.styles/animated-container visible? keyboard-shown?)}
                       [tabs tab]]]
           "desktop"
-                      ;[tabs-animation-wrapper-android
-                      ;           keyboard-shown?
-                      ;           view-id
-                      ;           [react/animated-view
-                      ;            {:style (tabs.styles/animated-container visible? keyboard-shown?)}
-          [tabs tab]
-                                  ;]]
-)))}))
+          [tabs-animation-wrapper-android
+           keyboard-shown?
+           view-id
+           [react/animated-view
+            {:style (tabs.styles/animated-container visible? keyboard-shown?)}
+            [tabs tab]]])))}))
 
 (def disappearance-duration 150)
 (def appearance-duration 100)
