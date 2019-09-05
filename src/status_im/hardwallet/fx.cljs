@@ -2,16 +2,9 @@
   (:require [re-frame.core :as re-frame]
             [status-im.utils.types :as types]
             [status-im.hardwallet.card :as card]
-            <<<<<<<
-            HEAD
             [status-im.native-module.core :as status]
-            [status-im.react-native.js-dependencies :as js-dependencies]))
-=======
-            [status-im.utils.datetime :as utils.datetime]
-            [status-im.native-module.core :as statusgo]
             [status-im.react-native.js-dependencies :as js-dependencies]
             [status-im.utils.platform :as platform]))
->>>>>>> 50905600a... handle initialized cards
 
 (re-frame/reg-fx
  :hardwallet/get-application-info
