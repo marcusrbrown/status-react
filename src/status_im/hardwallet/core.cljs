@@ -1714,10 +1714,11 @@
 
 (fx/defn on-get-keys-success
   [{:keys [db] :as cofx} data]
-  (let [{:keys [whisper-address encryption-public-key whisper-private-key] :as account-data} (js->clj data :keywordize-keys true)
-        {:keys [photo-path name]} (get-in db [:multiaccounts/multiaccounts whisper-address])
+  (let [{:keys [address whisper-address encryption-public-key whisper-private-key] :as account-data} (js->clj data :keywordize-keys true)
+        address (str "0x" address)
+        {:keys [photo-path name]} (get-in db [:multiaccounts/multiaccounts address])
         instance-uid (get-in db [:hardwallet :application-info :instance-uid])
-        multiaccount-data (types/clj->json {:name name :address (str "0x" whisper-address) :photo-path photo-path})]
+        multiaccount-data (types/clj->json {:name name :address address :photo-path photo-path})]
     (fx/merge cofx
               {:db                              (-> db
                                                     (assoc-in [:hardwallet :pin :status] nil)
@@ -1726,7 +1727,7 @@
                                                     (assoc-in [:hardwallet :flow] nil)
                                                     (update :multiaccounts/login assoc
                                                             :password encryption-public-key
-                                                            :address whisper-address
+                                                            :address address
                                                             :photo-path photo-path
                                                             :name name))
                :hardwallet/get-application-info {:pairing (get-pairing db instance-uid)}
