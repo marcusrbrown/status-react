@@ -43,7 +43,7 @@
 (views/defview learn-more-sheet []
   (views/letsubs [{:keys [title content]} [:bottom-sheet/options]]
     [react/view {:style {:padding-left 16 :padding-top 16
-                         :padding-right 34 :padding-bottom 28}}
+                         :padding-right 34 :padding-bottom 0}}
      [react/view {:style {:align-items :center :flex-direction :row :margin-bottom 16}}
       [vector-icons/icon :main-icons/info {:color colors/blue
                                            :container-style {:margin-right 13}}]
@@ -51,5 +51,4 @@
      [react/text {:style styles/learn-more-text} content]]))
 
 (def learn-more
-  {:content learn-more-sheet
-   :content-height 160})
+  {:content learn-more-sheet})
