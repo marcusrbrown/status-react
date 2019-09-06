@@ -37,7 +37,7 @@
 
 (defn save-account-and-login-with-keycard
   [multiaccount-data password config chat-key]
-  (native-module/save-account-and-login-with-keycard multiaccount-data password config chat-key))
+  (.saveAccountAndLoginWithKeycard (status) multiaccount-data password config chat-key))
 
 (defn login
   "NOTE: beware, the password has to be sha3 hashed"
