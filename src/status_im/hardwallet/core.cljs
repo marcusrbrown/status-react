@@ -67,6 +67,10 @@
     {:hardwallet/remove-listener-to-hardware-back-button listener}))
 
 (fx/defn on-add-listener-to-hardware-back-button
+  "Adds listener to hardware back button on Android.
+  During keycard setup we show user a warning that setup will be cancelled
+  when back button pressed. This prevents user from going back during setup
+  flow as some of the actions changing keycard step could not be repeated."
   {:events [:hardwallet/add-listener-to-hardware-back-button]}
   [{:keys [db]} listener]
   {:db (assoc-in db [:hardwallet :back-button-listener] listener)})
