@@ -451,11 +451,11 @@
 
 (fx/defn navigate-to-enter-pin-screen
   [{:keys [db] :as cofx}]
-  (let [keycard-instance-uid (get-in db [:hardwallet :application-info :instance-uid])
-        multiaccount-instance-uid (get-in db [:multiaccount :keycard-instance-uid])]
-    (if (or (nil? multiaccount-instance-uid)
-            (and keycard-instance-uid
-                 (= keycard-instance-uid multiaccount-instance-uid)))
+  (let [keycard-key-uid (get-in db [:hardwallet :application-info :key-uid])
+        multiaccount-key-uid (get-in db [:multiaccount :keycard-key-uid])]
+    (if (or (nil? multiaccount-key-uid)
+            (and keycard-key-uid
+                 (= keycard-key-uid multiaccount-key-uid)))
       (fx/merge cofx
                 {:db (assoc-in db [:hardwallet :pin :current] [])}
                 (navigation/navigate-to-cofx :enter-pin-settings nil))
@@ -915,11 +915,11 @@
 
 (fx/defn delete-card
   [{:keys [db] :as cofx}]
-  (let [keycard-instance-uid (get-in db [:hardwallet :application-info :instance-uid])
-        multiaccount-instance-uid (get-in db [:multiaccount :keycard-instance-uid])]
-    (if (or (nil? multiaccount-instance-uid)
-            (and keycard-instance-uid
-                 (= keycard-instance-uid multiaccount-instance-uid)))
+  (let [keycard-key-uid (get-in db [:hardwallet :application-info :key-uid])
+        multiaccount-key-uid (get-in db [:multiaccount :keycard-key-uid])]
+    (if (or (nil? multiaccount-key-uid)
+            (and keycard-key-uid
+                 (= keycard-key-uid multiaccount-key-uid)))
       {:hardwallet/delete nil}
       (unauthorized-operation cofx))))
 
