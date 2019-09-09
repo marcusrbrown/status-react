@@ -103,7 +103,7 @@
  :hardwallet/persist-pairings
  (fn [pairings]
    (.. js-dependencies/async-storage
-       (setItem "status-keycard-pairings" (types/clj->json pairings)))))
+       (setItem "status-keycard-pairings" (types/serialize pairings)))))
 
 (re-frame/reg-fx
  :hardwallet/retrieve-pairings
@@ -112,7 +112,7 @@
      (.. js-dependencies/async-storage
          (getItem "status-keycard-pairings")
          (then #(re-frame/dispatch [:hardwallet.callback/on-retrieve-pairings-success
-                                    (types/json->clj %)]))))))
+                                    (types/deserialize %)]))))))
 
 (re-frame/reg-fx
  :hardwallet/listen-to-hardware-back-button
