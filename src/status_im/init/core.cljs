@@ -9,7 +9,8 @@
             [status-im.ui.screens.db :refer [app-db]]
             [status-im.ui.screens.navigation :as navigation]
             [status-im.utils.fx :as fx]
-            [status-im.utils.platform :as platform]))
+            [status-im.utils.platform :as platform]
+            [clojure.string :as string]))
 
 (defn restore-native-settings! []
   (when platform/desktop?
@@ -66,11 +67,10 @@
   {:events [::initialize-multiaccounts]}
   [{:keys [db] :as cofx} all-multiaccounts]
   (let [multiaccounts (reduce (fn [acc {:keys [address keycard-key-uid] :as multiaccount}]
-                                (-> acc
-                                    (assoc address multiaccount)
-                                    (assoc-in [address :keycard-key-uid] (when-not
-                                                                          (clojure.string/blank? keycard-key-uid)
-                                                                           keycard-key-uid))))
+                                (cond-> (assoc acc address multiaccount)
+
+                                  (not (string/blank? keycard-key-uid))
+                                  (assoc-in [address :keycard-key-uid] keycard-key-uid)))
                               {}
                               all-multiaccounts)]
     (fx/merge cofx
