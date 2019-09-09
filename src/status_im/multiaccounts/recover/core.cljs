@@ -177,6 +177,7 @@
   [{:keys [db] :as cofx}]
   (let [storage-type (get-in db [:intro-wizard :selected-storage-type])]
     (if (= storage-type :advanced)
+      ;;TODO: fix circular dependency to remove dispatch here
       {:dispatch [:recovery.ui/keycard-option-pressed]}
       (navigation/navigate-to-cofx cofx :recover-multiaccount-enter-password nil))))
 
