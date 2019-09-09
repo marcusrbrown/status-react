@@ -116,6 +116,8 @@
 
 (re-frame/reg-fx
  :hardwallet/listen-to-hardware-back-button
+ ;;NOTE: not done in view because effect should happen under different conditions and is not dependent on 
+ ;;particular screen to be loaded. An fx is easier to re-use and test.
  (fn []
    (re-frame/dispatch [:hardwallet/add-listener-to-hardware-back-button
                        (.addEventListener js-dependencies/back-handler "hardwareBackPress"
