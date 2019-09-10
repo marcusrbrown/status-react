@@ -943,7 +943,7 @@
     "cannot-read-card": "Can't read card.\nPlease hold it to the back of your phone",
     "keycard-blocked": "Keycard has been blocked.\nYou need to reset card to continue using it.",
     "reset-card": "Reset card",
-    "reset-card-description": "This operation will reset card to initial state. It will erase all card data including private keys. Operation is not reversible.",
+    "reset-card-description": "This operation will remove key from the card. Operation is not reversible.",
     "unpair-card": "Unpair card",
     "pair-card": "Pair to this device",
     "pair-this-card": "Pair this card",
