@@ -66,11 +66,12 @@
 (fx/defn initialize-multiaccounts
   {:events [::initialize-multiaccounts]}
   [{:keys [db] :as cofx} all-multiaccounts]
-  (let [multiaccounts (reduce (fn [acc {:keys [address keycard-key-uid] :as multiaccount}]
-                                (cond-> (assoc acc address multiaccount)
-
-                                  (not (string/blank? keycard-key-uid))
-                                  (assoc-in [address :keycard-key-uid] keycard-key-uid)))
+  (let [multiaccounts (reduce (fn [acc {:keys [address keycard-key-uid keycard-pairing] :as multiaccount}]
+                                (-> (assoc acc address multiaccount)
+                                    (assoc-in [address :keycard-key-uid] (when-not (string/blank? keycard-key-uid)
+                                                                           keycard-key-uid))
+                                    (assoc-in [address :keycard-pairing] (when-not (string/blank? keycard-pairing)
+                                                                           keycard-pairing))))
                               {}
                               all-multiaccounts)]
     (fx/merge cofx
