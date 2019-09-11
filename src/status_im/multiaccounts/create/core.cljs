@@ -13,19 +13,27 @@
             [status-im.utils.security :as security]
             [status-im.utils.signing-phrase.core :as signing-phrase]
             [status-im.utils.types :as types]
-            [status-im.utils.utils :as utils]))
+            [status-im.utils.utils :as utils]
+            [status-im.utils.platform :as platform]))
 
 (defn get-signing-phrase [cofx]
   (assoc cofx :signing-phrase (signing-phrase/generate)))
 
 (def step-kw-to-num
-  {:generate-key         1
-   :choose-key           2
-   :select-key-storage   3
-   :create-code          4
-   :confirm-code         5
-   :enable-fingerprint   6
-   :enable-notifications 7})
+  (if platform/android?
+    {:generate-key         1
+     :choose-key           2
+     :select-key-storage   3
+     :create-code          4
+     :confirm-code         5
+     :enable-fingerprint   6
+     :enable-notifications 7}
+    {:generate-key         1
+     :choose-key           2
+     :create-code          3
+     :confirm-code         4
+     :enable-fingerprint   5
+     :enable-notifications 6}))
 
 (defn dec-step [step]
   (let [inverted  (map-invert step-kw-to-num)]
