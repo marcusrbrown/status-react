@@ -652,8 +652,11 @@
 
 (fx/defn keycard-connection-lost-cancel-pressed
   {:events [:keycard.connection-lost.ui/cancel-pressed]}
-  [cofx]
-  (navigation/navigate-back cofx))
+  [{:keys [db] :as cofx}]
+  (if (contains? (set (take 3 (:navigation-stack db)))
+                 :keycard-login-pin)
+    (navigation/navigate-to-cofx cofx :multiaccounts nil)
+    (navigation/navigate-back cofx)))
 
 (fx/defn start-onboarding-flow
   {:events [:keycard.recovery.no-key.ui/generate-key-pressed
